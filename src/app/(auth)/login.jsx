@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Text, TextInput, useTheme } from 'react-native-paper';
 import { COLORS } from '../../constants/colors';
 import { auth } from '../../firebase/config';
@@ -41,7 +42,7 @@ export default function LoginScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.topSection}>
         <Text style={styles.topSectionTitle}>Welcome Back!</Text>
         <Text style={styles.topSectionSubtitle}>Login to your account</Text>
@@ -108,7 +109,7 @@ export default function LoginScreen() {
           </ScrollView>
         </KeyboardAvoidingView>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
