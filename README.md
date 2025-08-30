@@ -2,9 +2,6 @@
 
 A modern, cross-platform mobile application for personal price management, built from the ground up with the React Native CLI. This project provides a seamless experience for tracking product prices on the go, connecting to a robust Firebase backend.
 
-![App Screenshot Placeholder](https://user-images.githubusercontent.com/2633304/134212953-33318f13-79e5-4a7a-a621-b4c6c21e25e9.png)
-_(Suggestion: Replace the image link above with a real screenshot of your beautiful login screen!)_
-
 ---
 
 ## ✨ Features
