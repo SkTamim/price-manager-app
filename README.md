@@ -1,97 +1,96 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Price Manager (React Native CLI) 📱
 
-# Getting Started
+A modern, cross-platform mobile application for personal price management, built from the ground up with the React Native CLI. This project provides a seamless experience for tracking product prices on the go, connecting to a robust Firebase backend.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+![App Screenshot Placeholder](https://user-images.githubusercontent.com/2633304/134212953-33318f13-79e5-4a7a-a621-b4c6c21e25e9.png)
+_(Suggestion: Replace the image link above with a real screenshot of your beautiful login screen!)_
 
-## Step 1: Start Metro
+---
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## ✨ Features
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- **Firebase Authentication:** Secure user login and signup with Email/Password.
+- **Protected Routes:** A robust navigation stack that separates public (auth) and private (main app) routes.
+- **Real-time Database:** Add and view products in real-time using Firestore's `onSnapshot` listener.
+- **Modern UI/UX:** A beautiful, modern user interface built with:
+  - **React Native Paper:** For a consistent, Material Design component library.
+  - **Custom Fonts:** Using "Agbalumo" for headings and "Poppins" for body text.
+  - **Advanced Styling:** A clean, two-panel layout on authentication screens.
+  - **User-Friendly Feedback:** Global snackbar system for non-disruptive notifications.
+- **Native Functionality:** Built with the React Native CLI for full control over the native project.
 
-```sh
-# Using npm
-npm start
+---
 
-# OR using Yarn
-yarn start
-```
+## 🛠️ Tech Stack
 
-## Step 2: Build and run your app
+- **Framework:** React Native CLI
+- **Backend:** Firebase (Authentication, Firestore)
+- **UI Library:** React Native Paper
+- **Navigation:** React Navigation (`Stack` & `Bottom Tabs`)
+- **Styling:** React Native StyleSheet
+- **Icons:** `react-native-vector-icons`
+- **Assets:** SVG illustrations via `react-native-svg`
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+---
 
-### Android
+## 🚀 Getting Started
 
-```sh
-# Using npm
-npm run android
+To get a local copy up and running, follow these simple steps.
 
-# OR using Yarn
-yarn android
-```
+### Prerequisites
 
-### iOS
+Ensure you have a complete React Native development environment set up for your OS by following the **[official guide](https://reactnative.dev/docs/environment-setup)**. This includes:
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+- Node.js (LTS version)
+- JDK (Version 17 is recommended)
+- Android Studio (for the Android SDK and emulator)
+- A configured Android emulator or a physical device with USB debugging enabled.
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+### Installation
 
-```sh
-bundle install
-```
+1.  **Clone the repo**
+    ```sh
+    git clone [https://github.com/your-username/priceManager.git](https://github.com/your-username/priceManager.git)
+    cd priceManager
+    ```
+2.  **Install NPM packages**
+    ```sh
+    npm install
+    ```
+3.  **Set up your environment variables**
 
-Then, and every time you update your native dependencies, run:
+    - Create a file named `.env` in the root of the project.
+    - Add your Firebase project credentials.
+      ```env
+      REACT_APP_API_KEY="YOUR_API_KEY"
+      REACT_APP_AUTH_DOMAIN="YOUR_AUTH_DOMAIN"
+      REACT_APP_PROJECT_ID="YOUR_PROJECT_ID"
+      REACT_APP_STORAGE_BUCKET="YOUR_STORAGE_BUCKET"
+      REACT_APP_MESSAGING_SENDER_ID="YOUR_MESSAGING_SENDER_ID"
+      REACT_APP_APP_ID="YOUR_APP_ID"
+      ```
 
-```sh
-bundle exec pod install
-```
+4.  **Set up Firebase for Android**
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+    - Go to your Firebase project settings.
+    - Download your `google-services.json` file.
+    - Place it in the **`android/app`** directory.
 
-```sh
-# Using npm
-npm run ios
+5.  **Link Custom Fonts**
+    ```sh
+    npx react-native-asset
+    ```
 
-# OR using Yarn
-yarn ios
-```
+### Running the App
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+1.  **Start the Metro Server**
+    - Open a terminal in your project root and run:
+    ```sh
+    npx react-native start
+    ```
+2.  **Run on Android**
+    - Make sure you have an Android emulator running or a physical device connected.
+    - Open a **second terminal** and run:
+    ```sh
+    npx react-native run-android
+    ```
