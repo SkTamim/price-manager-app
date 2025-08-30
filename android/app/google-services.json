@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "778978809610",
+    "project_id": "sks-price-manager",
+    "storage_bucket": "sks-price-manager.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:778978809610:android:c2fdb7855873ca34e70cf3",
+        "android_client_info": {
+          "package_name": "com.sktamim.pricemanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "778978809610-frajl0kbji23a41cv15b3g3mrklq6gf1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sktamim.pricemanager",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "778978809610-gi3f6gnrpuk4o0ogigbpnf8tjhagfg2d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf8UvF1FacR2C9FZKpB1Pu1nCSU38xL6o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "778978809610-gi3f6gnrpuk4o0ogigbpnf8tjhagfg2d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
