@@ -1,83 +1,80 @@
-import { useNavigation } from '@react-navigation/native';
-import { addDoc, collection } from 'firebase/firestore';
+import { collection, addDoc } from '@react-native-firebase/firestore'; // Modular import
 import React, { useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
-import { Button, TextInput, useTheme } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Text, TextInput, useTheme } from 'react-native-paper';
 import { COLORS } from '../../constants/colors';
-import { db } from '../../firebase/config';
+import { db } from '../../firebase/config'; // Import db instance
 import { useFeedback } from '../../context/FeedbackContext';
 
 export default function AddProductScreen() {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigation = useNavigation();
   const theme = useTheme();
   const { showSnackbar } = useFeedback();
 
-  const inputTheme = { ...theme, roundness: 30 };
-
   const handleAddProduct = async () => {
     if (!name || !price) {
-      showSnackbar('Please fill in both fields.', { error: true });
+      showSnackbar('Please fill in all fields.', { error: true });
       return;
     }
+    const parsedPrice = parseFloat(price);
+    if (isNaN(parsedPrice)) {
+      showSnackbar('Please enter a valid price.', { error: true });
+      return;
+    }
+
     setLoading(true);
     try {
-      await addDoc(collection(db, 'products'), {
+      // Modular syntax for adding a document
+      const productsCollection = collection(db, 'products');
+      await addDoc(productsCollection, {
         name: name,
-        price: parseFloat(price),
+        price: parsedPrice,
       });
       showSnackbar('Product added successfully!');
       setName('');
       setPrice('');
-      navigation.navigate('Products');
     } catch (error) {
-      console.error('Error adding product: ', error);
-      showSnackbar('Could not add product.', { error: true });
+      showSnackbar('Failed to add product.', { error: true });
+      console.error('Add product error', error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <View style={styles.container}>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
-        <ScrollView
-          contentContainerStyle={styles.formContainer}
-          keyboardShouldPersistTaps="handled"
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.keyboardView}
         >
           <Text style={styles.title}>Add New Product</Text>
-
           <TextInput
             label="Product Name"
             value={name}
             onChangeText={setName}
             mode="outlined"
             style={styles.input}
-            theme={inputTheme}
+            theme={theme}
           />
           <TextInput
-            label="Product Price"
+            label="Price"
             value={price}
             onChangeText={setPrice}
             mode="outlined"
             style={styles.input}
-            theme={inputTheme}
+            theme={theme}
             keyboardType="numeric"
           />
-
           <Button
             mode="contained"
             onPress={handleAddProduct}
@@ -88,9 +85,9 @@ export default function AddProductScreen() {
           >
             {loading ? 'Adding...' : 'Add Product'}
           </Button>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </View>
+        </KeyboardAvoidingView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -99,13 +96,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background,
   },
-  formContainer: {
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
     padding: 20,
-    paddingTop: 40,
+  },
+  keyboardView: {
+    width: '100%',
   },
   title: {
     fontFamily: 'Poppins-Bold',
     fontSize: 28,
+    textAlign: 'center',
     marginBottom: 24,
   },
   input: {

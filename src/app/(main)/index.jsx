@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
-import { signOut } from 'firebase/auth';
-import { collection, onSnapshot } from 'firebase/firestore';
+import { signOut } from '@react-native-firebase/auth'; // Modular import
+import { collection, onSnapshot } from '@react-native-firebase/firestore'; // Modular import
 import React, { useState, useEffect } from 'react';
 import {
   ActivityIndicator,
@@ -9,33 +9,39 @@ import {
   Text,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from 'react-native-paper';
 import { COLORS } from '../../constants/colors';
-import { auth, db } from '../../firebase/config';
+import { authInstance, db } from '../../firebase/config'; // Import instances
+
+const EmptyProductList = () => (
+  <Text style={styles.emptyText}>You have no products yet.</Text>
+);
 
 export default function ProductListScreen() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigation = useNavigation();
 
   useEffect(() => {
-    // onSnapshot creates a real-time listener for the products collection
-    const unsubscribe = onSnapshot(collection(db, 'products'), snapshot => {
-      const productsData = snapshot.docs.map(doc => ({
+    // Modular syntax for creating a query and listener
+    const productsQuery = collection(db, 'products');
+    const subscriber = onSnapshot(productsQuery, querySnapshot => {
+      const productsData = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
       }));
       setProducts(productsData);
-      setLoading(false);
+      if (loading) setLoading(false);
     });
 
-    return () => unsubscribe(); // Cleanup listener on unmount
+    return () => subscriber();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSignOut = async () => {
     try {
-      await signOut(auth);
-      // No navigation needed, the root App.tsx component will handle the redirect
+      // Modular syntax for signing out
+      await signOut(authInstance);
     } catch (error) {
       console.error('Sign out error', error);
     }
@@ -57,7 +63,7 @@ export default function ProductListScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Your Products</Text>
         <Button
@@ -76,17 +82,11 @@ export default function ProductListScreen() {
         contentContainerStyle={styles.listContainer}
         ListEmptyComponent={EmptyProductList}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
-// Moved outside ProductListScreen to avoid inline component definition
-function EmptyProductList() {
-  return (
-    <Text style={styles.emptyText}>You have no products yet.</Text>
-  );
-}
-
+// Styles remain the same
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -96,7 +96,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
   title: {
     fontFamily: 'Poppins-Bold',

@@ -7,17 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:778978809610:android:c2fdb7855873ca34e70cf3",
+        "mobilesdk_app_id": "1:778978809610:android:781aef2e2f631111e70cf3",
         "android_client_info": {
-          "package_name": "com.sktamim.pricemanager"
+          "package_name": "com.pricemanager"
         }
       },
       "oauth_client": [
         {
-          "client_id": "778978809610-frajl0kbji23a41cv15b3g3mrklq6gf1.apps.googleusercontent.com",
+          "client_id": "778978809610-8jd79nf6kko8sp8t15ohqslvt131a8mo.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.sktamim.pricemanager",
+            "package_name": "com.pricemanager",
             "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
