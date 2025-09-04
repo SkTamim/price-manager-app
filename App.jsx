@@ -3,8 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PaperProvider, MD3LightTheme } from 'react-native-paper';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './src/firebase/config';
+import { authInstance as auth } from './src/firebase/config';
+import { onAuthStateChanged } from '@react-native-firebase/auth';
 import { COLORS } from './src/constants/colors';
 import { FeedbackProvider } from './src/context/FeedbackContext';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -16,6 +16,7 @@ import ProductListScreen from './src/app/(main)/index';
 import AddProductScreen from './src/app/(main)/add';
 import SplashScreen from './src/components/SplashScreen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import ForgotPasswordScreen from './src/app/(auth)/ForgotPassword';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -56,6 +57,7 @@ function AuthStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
     </Stack.Navigator>
   );
 }

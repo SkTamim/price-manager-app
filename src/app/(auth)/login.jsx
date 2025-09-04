@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import auth from '@react-native-firebase/auth';
 import React, { useState } from 'react';
 import {
   KeyboardAvoidingView,
@@ -12,14 +12,15 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Text, TextInput, useTheme } from 'react-native-paper';
 import { COLORS } from '../../constants/colors';
-import { auth } from '../../firebase/config';
 import { useFeedback } from '../../context/FeedbackContext';
 
+import { signInWithGoogle } from '../../firebase/googleAuth';
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const navigation = useNavigation();
   const theme = useTheme();
   const { showSnackbar } = useFeedback();
@@ -33,12 +34,28 @@ export default function LoginScreen() {
     }
     setLoading(true);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await auth().signInWithEmailAndPassword(email, password);
+      showSnackbar('Signed in successfully!');
     } catch (error) {
       showSnackbar('Invalid email or password.', { error: true });
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleGoogleLogin = async () => {
+    setGoogleLoading(true);
+
+    try {
+      await signInWithGoogle();
+      // Login will be handled by the onAuthStateChanged listener in App.tsx
+      showSnackbar('Signed in with Google successfully!');
+    } catch (error) {
+      showSnackbar('Google Sign-In failed.', { error: true });
+    } finally {
+      setGoogleLoading(false);
+    }
+    setGoogleLoading(false);
   };
 
   return (
@@ -86,6 +103,12 @@ export default function LoginScreen() {
               }
             />
 
+            <View style={styles.forgotPasswordContainer}>
+              <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+              </TouchableOpacity>
+            </View>
+
             <Button
               mode="contained"
               onPress={handleLogin}
@@ -104,6 +127,29 @@ export default function LoginScreen() {
               <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
                 <Text style={styles.signupLink}>Sign Up</Text>
               </TouchableOpacity>
+            </View>
+
+
+            {/* Separator and Google Button */}
+            <View style={styles.separatorContainer}>
+              <View style={styles.separatorLine} />
+              <Text style={styles.separatorText}>Or continue with</Text>
+              <View style={styles.separatorLine} />
+            </View>
+
+            <View style={styles.socialLoginContainer}>
+              <Button
+                icon="google"
+                mode="outlined"
+                onPress={handleGoogleLogin}
+                loading={googleLoading}
+                disabled={loading || googleLoading}
+                style={styles.socialButton}
+                labelStyle={styles.socialButtonLabel}
+                textColor={COLORS.text}
+              >
+                {googleLoading ? 'Signing in...' : 'Continue with Google'}
+              </Button>
             </View>
 
           </ScrollView>
@@ -176,5 +222,43 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Bold',
     fontSize: 14,
     color: COLORS.primary,
-  }
+  },
+  separatorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 24,
+    marginBottom: 16,
+  },
+  separatorLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#E5E7EB',
+  },
+  separatorText: {
+    fontFamily: 'Poppins-Regular',
+    marginHorizontal: 12,
+    color: COLORS.gray,
+  },
+  socialLoginContainer: {
+    alignItems: 'center',
+  },
+  socialButton: {
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    width: '100%',
+    paddingVertical: 4,
+  },
+  socialButtonLabel: {
+    fontFamily: 'Poppins-SemiBold',
+  },
+  forgotPasswordContainer: {
+    width: '100%',
+    alignItems: 'flex-end',
+    marginBottom: 16,
+  },
+  forgotPasswordText: {
+    color: COLORS.primary,
+    fontFamily: 'Poppins-SemiBold',
+  },
 });
