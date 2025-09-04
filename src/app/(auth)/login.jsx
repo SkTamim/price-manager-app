@@ -103,6 +103,12 @@ export default function LoginScreen() {
               }
             />
 
+            <View style={styles.forgotPasswordContainer}>
+              <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+              </TouchableOpacity>
+            </View>
+
             <Button
               mode="contained"
               onPress={handleLogin}
@@ -244,6 +250,15 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   socialButtonLabel: {
+    fontFamily: 'Poppins-SemiBold',
+  },
+  forgotPasswordContainer: {
+    width: '100%',
+    alignItems: 'flex-end',
+    marginBottom: 16,
+  },
+  forgotPasswordText: {
+    color: COLORS.primary,
     fontFamily: 'Poppins-SemiBold',
   },
 });

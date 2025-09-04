@@ -16,6 +16,7 @@ import ProductListScreen from './src/app/(main)/index';
 import AddProductScreen from './src/app/(main)/add';
 import SplashScreen from './src/components/SplashScreen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import ForgotPasswordScreen from './src/app/(auth)/ForgotPassword';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -56,6 +57,7 @@ function AuthStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
     </Stack.Navigator>
   );
 }
