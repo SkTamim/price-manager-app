@@ -34,7 +34,6 @@ export default function LoginScreen() {
     }
     setLoading(true);
     try {
-      // Correct syntax for rnfirebase
       await auth().signInWithEmailAndPassword(email, password);
       showSnackbar('Signed in successfully!');
     } catch (error) {
