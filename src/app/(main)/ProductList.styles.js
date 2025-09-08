@@ -130,4 +130,11 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  searchbar: {
+    marginHorizontal: 20,
+    marginBottom: 10,
+  },
+  searchIndicator: {
+    margin: 'auto',
+  },
 });

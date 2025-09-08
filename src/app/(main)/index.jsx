@@ -1,28 +1,33 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   ActivityIndicator,
   FlatList,
   Image,
   Text,
   View,
+  Keyboard
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Card, } from 'react-native-paper';
+import { Button, Card, Searchbar } from 'react-native-paper';
 import { COLORS } from '../../constants/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { styles } from './ProductList.styles';
 
 const EmptyProductList = () => (
   <View style={styles.emptyContainer}>
-    <Text style={styles.emptyText}>You haven't added any products yet.</Text>
+    <Text style={styles.emptyText}>No products found.</Text>
   </View>
 );
 
 export default function ProductListScreen() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const searchbarRef = useRef(null);
 
   useEffect(() => {
     const subscriber = firestore()
@@ -33,12 +38,51 @@ export default function ProductListScreen() {
           ...documentSnapshot.data(),
         }));
         setProducts(productsData);
+        setFilteredProducts(productsData);
         if (loading) setLoading(false);
       });
 
     return () => subscriber();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+
+
+  // Effect to filter products whenever searchQuery changes
+  useEffect(() => {
+    setIsSearching(true);
+    if (searchQuery === '') {
+      setFilteredProducts(products);
+    } else {
+      const filtered = products.filter(product =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    }
+
+    setTimeout(() => {
+      setIsSearching(false);
+    }, 100);
+  }, [searchQuery, products]);
+
+  // This effect listens for when the keyboard hides
+  useEffect(() => {
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        // When the keyboard hides, unfocus the searchbar
+        if (searchbarRef.current) {
+          searchbarRef.current.blur();
+        }
+      }
+    );
+
+    // Cleanup the listener when the component unmounts
+    return () => {
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
 
   const handleSignOut = async () => {
     try {
@@ -124,13 +168,24 @@ export default function ProductListScreen() {
         </Button>
       </View>
 
-      <FlatList
-        data={products}
-        renderItem={renderProductItem}
-        keyExtractor={item => item.id}
-        contentContainerStyle={styles.listContainer}
-        ListEmptyComponent={EmptyProductList}
+      <Searchbar
+        placeholder="Search by name..."
+        onChangeText={setSearchQuery}
+        value={searchQuery}
+        style={styles.searchbar}
+        autoFocus={false}
+        ref={searchbarRef}
       />
+      {isSearching ? (
+        <ActivityIndicator style={styles.searchIndicator} size="30%" color={COLORS.primary} />
+      ) : (
+        <FlatList
+          data={filteredProducts}
+          renderItem={renderProductItem}
+          keyExtractor={item => item.id}
+          contentContainerStyle={styles.listContainer}
+          ListEmptyComponent={EmptyProductList}
+        />)}
     </SafeAreaView>
   );
 }
